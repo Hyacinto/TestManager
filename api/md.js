@@ -1,3 +1,5 @@
+import markdownToJson from "./mdtojson";
+
 export default async function handler(req, res) {
     const OWNER = process.env.GITHUB_OWNER;
     const REPO = process.env.GITHUB_REPO;
@@ -27,11 +29,12 @@ export default async function handler(req, res) {
 
         const content = Buffer.from(data.content, "base64").toString("utf-8");
 
+        const json = markdownToJson(content)
+
         return res.json({
             file,
-            content,
             sha: data.sha
-        });
+        }), json;
     }
 
     if (req.method === "POST" && Object.keys(req.body || {}).length === 0) {
