@@ -33,8 +33,9 @@ export default async function handler(req, res) {
 
         return res.json({
             file,
+            json,
             sha: data.sha
-        }), json;
+        });
     }
 
     if (req.method === "POST" && Object.keys(req.body || {}).length === 0) {
