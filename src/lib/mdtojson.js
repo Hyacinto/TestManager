@@ -1,5 +1,3 @@
-import fs from "fs";
-
 function markdownToJson(md) {
     const lines = md.split("\n");
 

@@ -1,0 +1,100 @@
+/* ========== RESET ========== */
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    margin: 32px;
+    color: #111;
+    background: #fff;
+}
+
+/* ========== HEADER ========== */
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+.meta {
+    margin-bottom: 24px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+}
+
+.meta div {
+    margin-bottom: 4px;
+}
+
+/* ========== RUN BLOCK ========== */
+
+.run {
+    margin-bottom: 40px;
+    page-break-inside: avoid;
+}
+
+.run h2 {
+    margin-bottom: 4px;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* ========== TABLE ========== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    vertical-align: top;
+}
+
+th {
+    background: #eee;
+    text-align: left;
+}
+
+/* ========== STATUS COLORS ========== */
+
+tr.pass td:nth-child(2) {
+    color: #0a7a0a;
+    font-weight: bold;
+}
+
+tr.fail td:nth-child(2) {
+    color: #b00020;
+    font-weight: bold;
+}
+
+/* ========== FOOTER ========== */
+
+footer {
+    margin-top: 48px;
+    font-size: 12px;
+    color: #777;
+    text-align: center;
+}
+
+/* ========== PRINT ========== */
+
+@media print {
+    body {
+        margin: 20mm;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+}
