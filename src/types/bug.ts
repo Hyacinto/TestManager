@@ -27,7 +27,7 @@ export type BugItem = {
     assignee?: string;
     githubIssueNumber?: number;
 
-    createdAt?: string;
+    createdAt: string;
     updatedAt?: string;
 
     path: string;

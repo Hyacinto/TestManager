@@ -108,6 +108,7 @@ export default function RunHistoryPage() {
 
                     return (
                         <li
+
                             key={run.path}
                             className="p-4 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
                             style={{

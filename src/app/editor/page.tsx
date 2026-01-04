@@ -174,40 +174,59 @@ export default function EditorPage() {
         setAddToSuite(prev => ({ ...prev, [caseName]: "" }));
     };
 
+    const removeTestCaseFromProduct = (
+        product: EditorProduct,
+        testCaseName: string
+    ): EditorProduct => {
+        const { [testCaseName]: _, ...remainingTestCases } = product.testCases;
+
+        const updatedTestSuites = product.testSuites.map(suite => ({
+            ...suite,
+            cases: suite.cases.filter(c => c !== testCaseName)
+        }));
+
+        return {
+            ...product,
+            testCases: remainingTestCases,
+            testSuites: updatedTestSuites
+        };
+    };
+
     const deleteTestCase = () => {
         if (!product || !selectedTestCase) return;
         if (!confirm("Biztos törlöd a tesztesetet?")) return;
 
-        setProduct(prev => {
-            if (!prev) return prev;
-
-            const { [selectedTestCase]: _, ...rest } = prev.testCases;
-
-            return {
-                ...prev,
-                testCases: rest,
-                testSuites: prev.testSuites.map(s => ({
-                    ...s,
-                    cases: s.cases.filter(c => c !== selectedTestCase)
-                }))
-            };
-        });
-
+        const testCaseToDelete = selectedTestCase;
+        setProduct(prev => prev ? removeTestCaseFromProduct(prev, testCaseToDelete) : prev);
         setSelectedTestCase(null);
     };
 
+    // Helper függvény - paraméterként kapja a suites tömböt
+    const updateSuitesWithRemovedCase = (
+        suites: EditorProduct['testSuites'],
+        suiteName: string,
+        testCaseName: string
+    ) => {
+        return suites.map(suite => {
+            if (suite.name !== suiteName) return suite;
+
+            return {
+                ...suite,
+                cases: suite.cases.filter(c => c !== testCaseName)
+            };
+        });
+    };
+
+    // A fő függvény
     const removeTestCaseFromSuite = (suiteName: string, testCaseName: string) => {
         if (!product) return;
 
         setProduct(prev => {
             if (!prev) return prev;
+
             return {
                 ...prev,
-                testSuites: prev.testSuites.map(s =>
-                    s.name === suiteName
-                        ? { ...s, cases: s.cases.filter(c => c !== testCaseName) }
-                        : s
-                )
+                testSuites: updateSuitesWithRemovedCase(prev.testSuites, suiteName, testCaseName)
             };
         });
     };
@@ -292,11 +311,19 @@ export default function EditorPage() {
                             {product.testSuites.map(s => (
                                 <div
                                     key={s.name}
+                                    role="button"
+                                    tabIndex={0}
                                     className={`p-2 rounded cursor-pointer ${selectedSuite === s.name
                                         ? "bg-blue-100"
                                         : "hover:bg-gray-100"
                                         }`}
                                     onClick={() => setSelectedSuite(s.name)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setSelectedSuite(s.name);
+                                        }
+                                    }}
                                 >
                                     <div className="flex justify-between">
                                         <span>{s.name}</span>
@@ -347,8 +374,16 @@ export default function EditorPage() {
                                         }`}
                                 >
                                     <div
+                                        role="button"
+                                        tabIndex={0}
                                         className="cursor-pointer"
                                         onClick={() => setSelectedTestCase(tc.name)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                setSelectedTestCase(tc.name);
+                                            }
+                                        }}
                                     >
                                         <div className="font-medium">
                                             {tc.name}
@@ -450,7 +485,7 @@ export default function EditorPage() {
 
                                 {currentTestCase.steps.map((step, i) => (
                                     <div
-                                        key={i}
+                                        key={step.step}
                                         className="border rounded p-3 mb-3"
                                     >
                                         <input

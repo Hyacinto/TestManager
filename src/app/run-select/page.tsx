@@ -72,6 +72,19 @@ export default function RunSelectPage() {
         );
     };
 
+    const toggleItemInArray = <T,>(array: T[], item: T): T[] => {
+        return array.includes(item)
+            ? array.filter(i => i !== item)
+            : [...array, item];
+    };
+
+    const toggleQuickSuiteCase = (testCase: string) => {
+        setQuickSuite(prev => ({
+            ...prev,
+            selectedCases: toggleItemInArray(prev.selectedCases, testCase)
+        }));
+    };
+
     return (
         <main style={{ display: "flex", flexDirection: "column", gap: 30 }}>
             <h1>RUN – {product.replace(".md", "")}</h1>
@@ -157,25 +170,20 @@ export default function RunSelectPage() {
                         <h3>⚡ Quick Suite</h3>
 
                         <ul>
-                            {Object.keys(data.testCases).map(tc => (
-                                <li key={tc}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={quickSuite.selectedCases.includes(tc)}
-                                            onChange={() =>
-                                                setQuickSuite(prev => ({
-                                                    ...prev,
-                                                    selectedCases: prev.selectedCases.includes(tc)
-                                                        ? prev.selectedCases.filter(c => c !== tc)
-                                                        : [...prev.selectedCases, tc]
-                                                }))
-                                            }
-                                        />
-                                        {tc}
-                                    </label>
-                                </li>
-                            ))}
+                            {
+                                Object.keys(data.testCases).map(tc => (
+                                    <li key={tc}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={quickSuite.selectedCases.includes(tc)}
+                                                onChange={() => toggleQuickSuiteCase(tc)}
+                                            />
+                                            {tc}
+                                        </label>
+                                    </li>
+                                ))
+                            }
                         </ul>
 
                         <button

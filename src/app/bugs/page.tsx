@@ -100,15 +100,16 @@ export default function BugsPage() {
             switch (sortBy) {
                 case "createdAt":
                     res =
-                        new Date(a.createdAt!).getTime() -
-                        new Date(b.createdAt!).getTime();
+                        new Date(a.createdAt).getTime() -
+                        new Date(b.createdAt).getTime();
                     break;
-                case "severity":
+                case "severity": {
                     const order = ["blocker", "critical", "major", "minor"];
                     res =
                         order.indexOf(a.severity) -
                         order.indexOf(b.severity);
                     break;
+                }
                 case "status":
                     res = a.status.localeCompare(b.status);
                     break;
@@ -133,12 +134,15 @@ export default function BugsPage() {
     /* ===== URL HELPER ===== */
 
     function updateParam(key: string, value: string | null) {
-        const next = new URLSearchParams(params.toString());
+    const next = new URLSearchParams(params.toString());
 
-        if (!value) next.delete(key);
-        else next.set(key, value);
+    if (value) {
+        next.set(key, value);
+    } else {
+        next.delete(key);
+    }
 
-        globalThis.history.replaceState(null, "", `?${next.toString()}`);
+    globalThis.history.replaceState(null, "", `?${next.toString()}`);
     }
 
     if (!product) {
