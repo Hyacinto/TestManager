@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug Reporter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>🐞 Bug Report</h1>
+
+    <form id="bugForm" autocomplete="off">
+        <label>A hiba rövid leírása</label>
+        <input id="description" required>
+
+        <label>Teszteset</label>
+        <input id="testCase" required>
+
+        <label>Elvárt eredmény</label>
+        <textarea id="expected"></textarea>
+
+        <label>Tényleges eredmény *</label>
+        <textarea id="actual" required></textarea>
+
+        <label>Reprodukció *</label>
+        <textarea id="repro" required></textarea>
+
+        <label>Severity</label>
+        <select id="severity">
+            <option value="blocker">blocker</option>
+            <option value="critical">critical</option>
+            <option value="major">major</option>
+            <option value="minor">minor</option>
+        </select>
+
+        <label>Priority</label>
+        <select id="priority">
+            <option value="high">high</option>
+            <option value="medium">medium</option>
+            <option value="low">low</option>
+        </select>
+
+        <input id="browser" placeholder="Browser">
+        <input id="os" placeholder="OS">
+        <input id="device" placeholder="Device">
+
+        <input id="screenshots" type="file" multiple>
+
+        <label>Projekt</label>
+        <select id="projectSelect">
+            <option value="">-- Válassz projektet --</option>
+        </select>
+
+        <label>Felelős</label>
+        <select id="assigneeSelect">
+            <option value="">-- válassz felelőst --</option>
+        </select>
+
+        <button type="submit">Küldés</button>
+
+    </form>
+
+    <div id="result"></div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
